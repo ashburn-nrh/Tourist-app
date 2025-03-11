@@ -1,0 +1,4 @@
+# Ignore environment files
+.env
+node_modules/
+.expo/
