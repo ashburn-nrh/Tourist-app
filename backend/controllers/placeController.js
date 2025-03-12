@@ -10,13 +10,19 @@ exports.getPlaces = async (req, res) => {
   }
 };
 
+
 exports.addPlace = async (req, res) => {
   try {
+    console.log("Received request body:", req.body);
+    
     const place = new Place(req.body);
     await place.save();
+
+    console.log("Place added:", place);
     res.json({ message: "Place added", place });
   } catch (error) {
-    console.error("Error adding place:", error);  // 👀 Log error
+    console.error("Error adding place:", error);
     res.status(500).json({ message: "Error adding place", error: error.message });
   }
 };
+
