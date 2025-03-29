@@ -8,23 +8,20 @@ export default function HomeScreen() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
-    // fetch(API_URL)
-    //   .then((res) => res.json())
-    //   .then((data) => setPlaces(data))
-    //   .catch((err) => console.error("Error:", err));
-    fetch("http://172.20.10.3:5001/api/places")
-  .then((response) => response.text())  // Convert to text first
-  .then((text) => {
-    console.log("🔍 API Response:", text); // Log raw response
-    return JSON.parse(text);  // Try parsing as JSON
-  })
-  .then((data) => console.log("✅ Parsed Data:", data))
-  .catch((error) => console.error("❌ Fetch error:", error));
+    fetch(API_URL)
+      .then((response) => response.json()) // Parse JSON directly
+      .then((data) => {
+        console.log("📍 API Response:", data); // Log data
+        setPlaces(data); // Store in state
+      })
+      .catch((error) => console.error("❌ Fetch error:", error));
   }, []);
+  
 
   return (
     <View style={{ padding: 20 }}>
       <Text style={{ fontSize: 24, fontWeight: "bold" }}>Nearby Places</Text>
+      <Text className="text-red-500">Explore places nearby </Text>
       <FlatList
         data={places}
         keyExtractor={(item) => item._id}

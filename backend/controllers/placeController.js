@@ -1,14 +1,25 @@
 const Place = require('../models/Place');
 
+// exports.getPlaces = async (req, res) => {
+//   try {
+//     const places = await Place.find();
+//     res.json(places);
+//   } catch (error) {
+//     console.error("Error fetching places:", error);  // 👀 Log error
+//     res.status(500).json({ message: "Error fetching places", error: error.message });
+//   }
+// };
 exports.getPlaces = async (req, res) => {
   try {
     const places = await Place.find();
+    console.log("📍 Places fetched from DB:", places); // Debugging log
     res.json(places);
   } catch (error) {
-    console.error("Error fetching places:", error);  // 👀 Log error
+    console.error("❌ Error fetching places:", error);
     res.status(500).json({ message: "Error fetching places", error: error.message });
   }
 };
+
 
 
 exports.addPlace = async (req, res) => {
