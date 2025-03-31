@@ -8,32 +8,40 @@ export default function HomeScreen() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
-    fetch(API_URL)
-      .then((response) => response.json()) // Parse JSON directly
-      .then((data) => {
-        console.log("📍 API Response:", data); // Log data
-        setPlaces(data); // Store in state
-      })
-      .catch((error) => console.error("❌ Fetch error:", error));
+    const fetchPlaces = async () => {
+      try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        console.log("📍 API Response:", data);
+        setPlaces(data);
+      } catch (error) {
+        console.error("❌ Fetch error:", error);
+      }
+    };
+
+    fetchPlaces();
   }, []);
-  
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>Nearby Places</Text>
-      <Text className="text-red-500">Explore places nearby </Text>
+    <View className="p-5 bg-white min-h-screen">
+      <Text className="text-2xl font-bold">Nearby Places</Text>
+      <Text className="text-lg text-red-500">Explore places nearby</Text>
+
       <FlatList
         data={places}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={{ marginVertical: 10, padding: 15, backgroundColor: "#ddd", borderRadius: 10 }}>
+          <TouchableOpacity className="mt-4 p-4 bg-gray-200 rounded-lg">
             <Link href={`/places/${item._id}`}>
-              <Text style={{ fontSize: 18 }}>{item.name}</Text>
+              <Text className="text-lg font-semibold">{item.name}</Text>
             </Link>
           </TouchableOpacity>
         )}
       />
-      <Link href="/add-place" style={{ marginTop: 20, fontSize: 18, color: "blue" }}>+ Add New Place</Link>
+
+      <Link href="/add-place" className="mt-5 text-lg text-blue-500">
+        + Add New Place
+      </Link>
     </View>
   );
 }
