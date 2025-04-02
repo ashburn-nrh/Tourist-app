@@ -1,39 +1,38 @@
 const Place = require('../models/Place');
 
-// exports.getPlaces = async (req, res) => {
-//   try {
-//     const places = await Place.find();
-//     res.json(places);
-//   } catch (error) {
-//     console.error("Error fetching places:", error);  // 👀 Log error
-//     res.status(500).json({ message: "Error fetching places", error: error.message });
-//   }
-// };
+// ✅ Ensure all functions exist
 exports.getPlaces = async (req, res) => {
   try {
     const places = await Place.find();
-    console.log("📍 Places fetched from DB:", places); // Debugging log
     res.json(places);
   } catch (error) {
-    console.error("❌ Error fetching places:", error);
     res.status(500).json({ message: "Error fetching places", error: error.message });
   }
 };
 
-
-
-exports.addPlace = async (req, res) => {
+exports.getPlaceById = async (req, res) => { // ✅ Ensure this function exists!
   try {
-    console.log("Received request body:", req.body);
-    
-    const place = new Place(req.body);
-    await place.save();
+    const place = await Place.findById(req.params.id);
+    if (!place) return res.status(404).json({ message: "Place not found" });
 
-    console.log("Place added:", place);
-    res.json({ message: "Place added", place });
+    res.json(place);
   } catch (error) {
-    console.error("Error adding place:", error);
-    res.status(500).json({ message: "Error adding place", error: error.message });
+    res.status(500).json({ message: "Error fetching place", error: error.message });
   }
 };
 
+exports.addPlace = async (req, res) => {
+  try {
+    const { name, category, location } = req.body;
+
+    if (!name || !category || !location?.coordinates) {
+      return res.status(400).json({ message: "Missing required fields" });
+    }
+
+    const place = new Place({ name, category, location });
+    await place.save();
+    res.json({ message: "Place added", place });
+  } catch (error) {
+    res.status(500).json({ message: "Error adding place", error: error.message });
+  }
+};

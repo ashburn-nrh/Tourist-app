@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import { Link } from "expo-router";
 
-const API_URL = "http://172.20.10.3:5001/api/places"; // Replace with your backend IP
+const API_URL = "http://192.168.1.13:5001/api/places"; // Replace with your backend IP
 
 export default function HomeScreen() {
   const [places, setPlaces] = useState([]);
