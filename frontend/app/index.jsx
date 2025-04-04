@@ -51,7 +51,7 @@ export default function HomeScreen() {
         renderItem={({ item, index }) => (
           <TouchableOpacity className={`mt-4 p-6 rounded-xl shadow-lg ${COLORS[index % COLORS.length]}`}>
             <Link href={`/places/${item._id}`} className="flex items-center">
-              <Text className="text-2xl font-bold text-white text-center">{item.name}</Text>
+              <Text className="text-2xl font-bold text-red text-center">{item.name}</Text>
               <Text className="text-lg text-gray-100 text-center mt-1">Tap to view details</Text>
             </Link>
           </TouchableOpacity>
